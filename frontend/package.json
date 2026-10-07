@@ -1,0 +1,8 @@
+{
+    "name": "acme-coffee-store-frontend",
+    "private": true,
+    "description": "Elm-review tooling for the Kafejo frontend (run with bun).",
+    "devDependencies": {
+        "elm-review": "2.13.5"
+    }
+}

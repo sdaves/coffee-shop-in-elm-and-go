@@ -1,0 +1,73 @@
+{
+  "web": {
+    "http_addr": "127.0.0.1:8080",
+    "cors": false,
+    "http_headers": {
+      "X-API-Name": "Acme Coffee Store API",
+      "X-API-Version": "1.0.0"
+    }
+  },
+  "databases": {
+    "store": {
+      "type": "sqlite",
+      "url": "./store.db"
+    }
+  },
+  "auth": {
+    "secret": "dev-secret-change-me-please",
+    "token_ttl_hours": 72
+  },
+  "null_value": "null",
+  "scripts": {
+    "low_stock": {
+      "database": "store",
+      "sql": "SELECT SKU, NAME, STOCK, REORDER_LEVEL FROM PRODUCTS WHERE STOCK <= REORDER_LEVEL ORDER BY STOCK ASC",
+      "public_exec": true
+    },
+    "revenue_by_category": {
+      "database": "store",
+      "path": "scripts/revenue_by_category.sql"
+    }
+  },
+  "tables": {
+    "products": {
+      "database": "store",
+      "name": "PRODUCTS",
+      "primary_key": "SKU",
+      "public_read": true,
+      "public_write": false,
+      "page_size": 20,
+      "order_by": "NAME ASC",
+      "show_total": true,
+      "filter": "ACTIVE = 1",
+      "filterable_columns": ["SKU", "NAME", "CATEGORY"],
+      "exported_columns": ["SKU", "NAME", "CATEGORY", "PRICE_CENTS", "STOCK", "IMAGE", "DESCRIPTION"]
+    },
+    "customers": {
+      "database": "store",
+      "name": "CUSTOMERS",
+      "primary_key": "CUSTOMER_ID",
+      "public_read": false,
+      "public_write": false,
+      "order_by": "FULL_NAME ASC",
+      "show_total": true,
+      "exported_columns": ["CUSTOMER_ID", "EMAIL", "FULL_NAME", "COUNTRY", "ROLE", "CREATED_AT"]
+    },
+    "orders": {
+      "database": "store",
+      "name": "ORDERS",
+      "primary_key": "ORDER_ID",
+      "public_read": false,
+      "public_write": false,
+      "order_by": "PLACED_AT DESC",
+      "show_total": true
+    },
+    "order_items": {
+      "database": "store",
+      "name": "ORDER_ITEMS",
+      "primary_key": "ORDER_ITEM_ID",
+      "public_read": false,
+      "public_write": false
+    }
+  }
+}

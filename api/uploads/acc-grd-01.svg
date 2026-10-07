@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Burr Grinder">
+  <rect width="400" height="300" fill="#1e1a17"/>
+  <rect width="400" height="6" fill="#d9a066"/>
+  <text x="200" y="145" font-family="system-ui, sans-serif" font-size="64" text-anchor="middle">⚙️</text>
+  <text x="200" y="220" font-family="system-ui, sans-serif" font-size="22" fill="#efe7dd" text-anchor="middle">Burr Grinder</text>
+  <text x="200" y="252" font-family="system-ui, sans-serif" font-size="15" fill="#a89a8a" text-anchor="middle">accessory</text>
+</svg>

@@ -1,0 +1,31 @@
+# Compiled binaries
+/storeapi
+api/storeapi
+gosqlapi/gosqlapi
+
+# Go build/test artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Upstream gosqlapi library (kept as its own git repo)
+/gosqlapi/
+
+# Runtime data and logs
+*.log
+*.db
+*.db-shm
+*.db-wal
+
+# User-uploaded product images (seeded images are tracked)
+api/uploads/up-*
+
+# Elm build cache
+elm-stuff/
+
+# elm-review tooling installed via bun (bun.lock is tracked)
+node_modules/

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kafejo</title>
+    <link rel="stylesheet" href="radix-styles.css" />
+    <link rel="stylesheet" href="radix-extra.css" />
+    <style>
+      :root {
+        --bg: #14110f;
+        --panel: #1e1a17;
+        --panel-2: #262019;
+        --line: #3a3128;
+        --text: #efe7dd;
+        --muted: #a89a8a;
+        --accent: #d9a066;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font: 15px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      .app { max-width: 960px; margin: 0 auto; padding: 20px 16px 48px; }
+
+      .topbar {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line);
+      }
+      .brand { display: flex; gap: 8px; align-items: center; }
+      .logo { font-size: 22px; }
+      .auth { display: flex; gap: 8px; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
+      .auth-form { flex-direction: column; align-items: stretch; gap: 8px; max-width: 580px; }
+      .segmented { display: flex; gap: 6px; justify-content: flex-end; }
+      .auth-fields { display: flex; flex-direction: column; align-items: stretch; gap: 8px; width: 100%; }
+      .auth-inputs { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+      .auth-actions { display: flex; align-items: center; gap: 8px; justify-content: space-between; flex-wrap: nowrap; }
+      .hint { color: var(--muted); font-size: 12px; text-align: right; margin: 0; }
+      .creds { display: flex; flex-direction: column; gap: 2px; }
+      .cred { display: flex; gap: 16px; justify-content: flex-end; }
+      .cred-email { color: var(--text); }
+      .cred-pass { color: var(--muted); }
+
+      .tabs { display: flex; gap: 6px; margin: 18px 0; flex-wrap: wrap; }
+
+      .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+      .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+      .toolbar { margin-bottom: 16px; }
+      .field-row { display: flex; gap: 8px; align-items: center; }
+
+      select { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+        gap: 12px;
+        max-width: 100%;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 6px;
+      }
+      .rt-TableRoot {
+        max-width: 100%;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+      .product-image { display: block; width: 100%; height: auto; max-height: 140px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; background: var(--panel-2); }
+      .product-image-lg { max-height: 220px; }
+      .uploader { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+      .uploader .product-image { max-height: 160px; margin-bottom: 0; }
+      .product-card { cursor: pointer; display: block; min-width: 0; }
+      .product-card .rt-Card { height: 100%; min-width: 0; overflow: hidden; transition: transform .15s, box-shadow .15s; }
+      .product-card .rt-Card > * { min-width: 0; }
+      .product-card:hover .rt-Card { transform: translateY(-2px); }
+      .card-bottom { display: flex; width: 100%; align-items: center; gap: 8px; margin-top: 10px; }
+      .card-col { flex: 1 1 0; min-width: 0; }
+      .card-left { text-align: left; }
+      .card-center { text-align: center; }
+      .card-right { text-align: right; }
+
+      .pager { display: flex; align-items: center; gap: 14px; margin-top: 18px; }
+
+      .cart { margin-bottom: 18px; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+      .cart-total { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; gap: 12px; }
+
+      .order-head { display: flex; gap: 12px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+      .time-toggle { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 2px; }
+      .order-total { text-align: right; margin-top: 8px; color: var(--accent); font-weight: 700; }
+
+      .modal-backdrop {
+        position: fixed; inset: 0; background: rgba(0,0,0,.6);
+        display: flex; align-items: center; justify-content: center; padding: 20px;
+      }
+      .modal {
+        position: relative; background: var(--panel); border: 1px solid var(--line);
+        border-radius: 14px; padding: 22px; max-width: 460px; width: 100%; max-height: 90vh; overflow: auto;
+      }
+      .modal-close { position: absolute; top: 10px; right: 10px; z-index: 1; }
+      .modal-close button { font-size: 26px; line-height: 1; padding: 2px 8px; }
+      .stack { margin: 10px 0; }
+      .checkbox-row { display: flex; align-items: center; gap: 8px; margin-top: 14px; cursor: pointer; }
+      .checkbox-row input { pointer-events: none; }
+      .add-row { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+      .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px; }
+      .product-description { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); white-space: pre-wrap; }
+    </style>
+  </head>
+  <body
+    class="radix-themes dark"
+    data-is-root-theme="true"
+    data-accent-color="amber"
+    data-gray-color="mauve"
+    data-radius="medium"
+    data-scaling="100%"
+  >
+    <div id="app"></div>
+    <script src="elm.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
